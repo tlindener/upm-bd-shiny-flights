@@ -1,10 +1,34 @@
 library(shiny)
-library(maps)
-library(maptools)
-library(ggmap)
-library(ggplot2)
-
 shinyServer(function(input, output) {
+  
+  output$atlanta_data <- renderDataTable({
+    airport_atlanta[, c("DayofMonth","DayOfWeek",  "FlightNum"  ,"ArrDelay",input$atlanta_list_variables), drop = FALSE]
+  }, rownames = TRUE)
+  
+  
+  
+  lmResults <- reactive({
+    regress.exp <- paste("ArrDelay ~ ",paste(c("DepDelay",input$atlanta_prediction_variables), collapse="+"),sep = "")
+    lm(regress.exp, data=airport_atlanta)  
+  })
+  
+  output$atlanta_prediction <- renderTable({
+    results <- summary(lmResults())
+    data.frame(R2=results$r.squared,
+               adj.R2=results$adj.r.squared,
+               DOF.model=results$df[1],
+               DOF.available=results$df[2],
+               DOF.total=sum(results$df[1:2]),
+               f.value=results$fstatistic[1],
+               f.denom=results$fstatistic[2],
+               f.numer=results$fstatistic[3],
+               p=1-pf(results$fstatistic[1],
+                      results$fstatistic[2],
+                      results$fstatistic[3]))
+  })
+  
+  
+  
   output$leaflet_airport_connections = renderLeaflet({
     #filter airports
     delays_sub = airport_connections %>% filter(airport_origin == input$airport)
