@@ -1,5 +1,4 @@
 # base libraries
-library(plyr)
 library(dplyr)
 library(leaflet)
 library(maps)
@@ -60,19 +59,8 @@ airports_names_top5 <-
   )
 timemed <- read.csv("tsmed.csv")
 timeavg <- read.csv("tsavg.csv")
-airlineclusters <- read.csv("airlineclusters.csv")
-airportclusters <- read.csv("airportclusters.csv")
 geodata <- read.csv("geodata.csv")
-airports <- merge(airportclusters, geodata, by = "Origin")
-airports <-
-  rename(
-    airports,
-    c(
-      "COUNT.Origin." = "num_flights",
-      "MEDIAN.ArrDelay." = "arr_delay_med",
-      "AVG.ArrDelay." = "arr_delay_avg"
-    )
-  )
+airports <- readRDS("airports.rds")
 delay_max <- round(range(airports$arr_delay_avg)[2])
 delay_min <- round(range(airports$arr_delay_avg)[1])
 

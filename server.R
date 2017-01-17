@@ -1,4 +1,6 @@
 library(shiny)
+
+
 shinyServer(function(input, output) {
   
   output$atlanta_data <- renderDataTable({
@@ -14,17 +16,28 @@ shinyServer(function(input, output) {
   
   output$atlanta_prediction <- renderTable({
     results <- summary(lmResults())
-    data.frame(R2=results$r.squared,
-               adj.R2=results$adj.r.squared,
-               DOF.model=results$df[1],
-               DOF.available=results$df[2],
-               DOF.total=sum(results$df[1:2]),
-               f.value=results$fstatistic[1],
-               f.denom=results$fstatistic[2],
-               f.numer=results$fstatistic[3],
-               p=1-pf(results$fstatistic[1],
-                      results$fstatistic[2],
-                      results$fstatistic[3]))
+      data.frame(R2=results$r.squared,
+                         adj.R2=results$adj.r.squared,
+                         DOF.model=results$df[1],
+                         DOF.available=results$df[2],
+                         DOF.total=sum(results$df[1:2]),
+                         f.value=results$fstatistic[1],
+                         f.denom=results$fstatistic[2],
+                         f.numer=results$fstatistic[3],
+                         p=1-pf(results$fstatistic[1],
+                                results$fstatistic[2],
+                                results$fstatistic[3]))
+    
+  })
+  output$atlanta_prediction_plot <- renderPlot({
+    fit <- lmResults()
+    ggplot(fit$model, aes_string(x = names(fit$model)[2], y = names(fit$model)[1])) + 
+      geom_point() +
+      stat_smooth(method = "lm", col = "red") +
+      labs(title = paste("Adj R2 = ",signif(summary(fit)$adj.r.squared, 5),
+                         "Intercept =",signif(fit$coef[[1]],5 ),
+                         " Slope =",signif(fit$coef[[2]], 5),
+                         " P =",signif(summary(fit)$coef[2,4], 5)))
   })
   
   

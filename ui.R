@@ -45,7 +45,7 @@ shinyUI(dashboardPage(
                                                             selectInput("airport", "Airport", selected = "Chicago O'Hare International",
                                                                         airport_names)
                                                         ),
-                                                        box(width = NULL,h2("Explanation"),
+                                                        box(width = NULL,title="Explanation",
                                                             h4("Select a single connection between two airports to get details about the connection like cancelled flights and total flights.")
                                                         )))), 
                                                tabPanel("Delays per Size",fluidRow(
@@ -62,7 +62,7 @@ shinyUI(dashboardPage(
                                                                         min = flight_min, max = flight_max, value = c(flight_min,flight_max))
                                                             
                                                         ),
-                                                        box(width = NULL,h2("Explanation"),
+                                                        box(width = NULL,title="Explanation",
                                                             h4("Limit the selection of airports based on number of flights of the airport")
                                                         )))),
                                                tabPanel("Delay by Weather",fluidRow(
@@ -76,7 +76,7 @@ shinyUI(dashboardPage(
                                                             selectInput("airport_weather_delay", "Airport", selected = "All",
                                                                         airports_names_top5)
                                                         ),
-                                                        box(width = NULL,h2("Explanation"),
+                                                        box(width = NULL,title="Explanation",
                                                             h4("Select a single connection between two airports to get details about the connection like cancelled flights and total flights.")
                                                         )))
                                                  
@@ -103,7 +103,7 @@ shinyUI(dashboardPage(
                                                                     choices = c("Median","Average"),
                                                                     selected = "Average")
                                                                  ),
-                                                    box(width = NULL,h2("Explanation"),
+                                                    box(width = NULL,title="Explanation",
                                                         h4("Select a single connection between two airports to get details about the connection like cancelled flights and total flights.")
                                                     )))),
                                   tabPanel("Timeseries",
@@ -128,7 +128,7 @@ shinyUI(dashboardPage(
                                                                                  choices = c("Median","Average"),
                                                                                  selected = "Average")
                                                                  ),
-                                                    box(width = NULL,h2("Explanation"),
+                                                    box(width = NULL,title="Explanation",
                                                                      h4("This visualization shows a timeseries for the top 5 airlines in the dataset. The selection allows to choose between airlines and aggregation type.")
                                                                  ))))
               )), tabItem(tabName = "Prediction",
@@ -136,12 +136,14 @@ shinyUI(dashboardPage(
                                       tabPanel("Atlanta Linear Regression",
                                                fluidRow(
                                                  column(width=6,
-                                                        box(width=NULL,tableOutput("atlanta_prediction"))
+                                                        box(width=NULL,tableOutput("atlanta_prediction")),
+                                                        box(width = NULL,status ="warning",
+                                                            plotOutput("atlanta_prediction_plot"))
                                                         ),
                                                  column(width=6,
                                                         box(tatus = "warning",
                                                             checkboxGroupInput("atlanta_prediction_variables", "Variables to show:",airport_atlanta_prediction_columns)),
-                                                        box(h2("Explanation"),
+                                                        box(title="Explanation",
                                                             h4("This component is experimental. It is supposed to provide an easy introduction to building a linear regression models in shiny. The model assumptions won't be met successfully and the dataset is limited to Atlanta (May 2008) due to performance reasons. See further explanations in the report.")
                                                  )))),
                                       tabPanel("Atlanta Dataset",
