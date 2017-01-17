@@ -129,7 +129,6 @@ shinyServer(function(input, output) {
     p <- p+ geom_point(aes(y=avg_weather_delay), colour="blue")
     p <- p+ theme(axis.text.x = element_text(size  = 10,angle = 45,hjust = 1,vjust = 1))
     p <- p+ scale_size(range=c(3,14))
-    p <- p + scale_colour_manual(c("red = Average Arrival Delay","green = Average Departure Delay","blue = Average Weather Delay"))
     p
   })
   
