@@ -75,7 +75,7 @@ shinyServer(function(input, output) {
     data = switch(input$ts_delayType, 
                   "Median" = timemed,
                   "Average" = timeavg)
-    color = c("red", "blue", "purple", "green", "red")
+    color = c("red", "blue", "purple", "green", "black")
     carrier = switch(input$ts_airlineSelect,"Top 5" = "all",
                      "American Airlines" = "AA",
                      "Southwest Airlines" = "WN",
@@ -85,7 +85,7 @@ shinyServer(function(input, output) {
     
     if (carrier == "all"){
       airline = c("AA", "WN", "OO", "MQ", "UA")
-      color = c("red", "blue", "purple", "green", "red")
+      color = c("red", "blue", "purple", "green", "black")
     }
     if (carrier == "AA"){
       color = color[1]
@@ -129,6 +129,7 @@ shinyServer(function(input, output) {
     p <- p+ geom_point(aes(y=avg_weather_delay), colour="blue")
     p <- p+ theme(axis.text.x = element_text(size  = 10,angle = 45,hjust = 1,vjust = 1))
     p <- p+ scale_size(range=c(3,14))
+    p <- p + scale_colour_manual(c("red = Average Arrival Delay","green = Average Departure Delay","blue = Average Weather Delay"))
     p
   })
   
