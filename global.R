@@ -5,7 +5,7 @@ library(maps)
 library(maptools)
 library(ggmap)
 library(ggplot2)
-
+library(reshape2)
 # load initial dataset
 
 airport_connections <- read.csv2("airports_connection_matrix.csv")

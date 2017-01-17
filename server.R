@@ -122,14 +122,16 @@ shinyServer(function(input, output) {
                         "Los Angeles International" = aggregateLAX,
                         "Denver Intl" = aggregateDEN)
     
-    
-    p <- ggplot(aggregate, aes(Events, size=num_arr_delays))
-    p <- p+ geom_point(aes(y=avg_arr_delay), colour="red")
-    p <- p+ geom_point(aes(y=avg_dep_delay), colour="green")
-    p <- p+ geom_point(aes(y=avg_weather_delay), colour="blue")
+    aggregate <- aggregate[,c(1,3,5,6,8)]
+    names(aggregate) <- c("Events", "NumberOfFlights","DepartureDelay", "WeatherDelay", "ArrivalDelay")
+    aggregate.melt <- melt(aggregate, id.vars = c('Events','NumberOfFlights'), variable.name = 'DelayType', 
+                           value.name = 'DelayTime')
+    p <- ggplot(aggregate.melt, aes(Events, size=NumberOfFlights, color=DelayType))
+    p <- p+ geom_point(aes(y=DelayTime))#, colour="red")
     p <- p+ theme(axis.text.x = element_text(size  = 10,angle = 45,hjust = 1,vjust = 1))
     p <- p+ scale_size(range=c(3,14))
     p
+    
   })
   
   output$delay_distribution = renderPlot({

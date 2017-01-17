@@ -77,7 +77,7 @@ shinyUI(dashboardPage(
                                                                         airports_names_top5)
                                                         ),
                                                         box(width = NULL,title="Explanation",
-                                                            h4("Select a single connection between two airports to get details about the connection like cancelled flights and total flights.")
+                                                            h4("Select a specific top 5 airport to get the aggregated delays per airport.")
                                                         )))
                                                  
                                                ))),
@@ -104,7 +104,7 @@ shinyUI(dashboardPage(
                                                                     selected = "Average")
                                                                  ),
                                                     box(width = NULL,title="Explanation",
-                                                        h4("Select a single connection between two airports to get details about the connection like cancelled flights and total flights.")
+                                                        h4("Based on the selected airline and the selected aggregration function the distribution of delays is displayed")
                                                     )))),
                                   tabPanel("Timeseries",
                                            fluidRow(
